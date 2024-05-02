@@ -28,11 +28,14 @@ namespace RSMFinalProject.Server.Controllers
              [FromQuery] string? category = null,
              [FromQuery] string? subcategory = null,
              [FromQuery] string? salesperson = null,
-             [FromQuery] bool? onlineOrder = null)
+             [FromQuery] bool? onlineOrder = null,
+             [FromQuery] int pageNumber = 1,
+             [FromQuery] int pageSize = 20)
         {
-            DateTime? parsedStartDate = string.IsNullOrEmpty(startDate) ? (DateTime?)null : DateTime.Parse(startDate);
-            DateTime? parsedEndDate = string.IsNullOrEmpty(endDate) ? (DateTime?)null : DateTime.Parse(endDate);
+            DateTime? parsedStartDate = string.IsNullOrEmpty(startDate) ? null : DateTime.Parse(startDate);
+            DateTime? parsedEndDate = string.IsNullOrEmpty(endDate) ? null : DateTime.Parse(endDate);
 
+            int itemsToSkip = (pageNumber - 1) * pageSize;
             var salesDetails = _context.GetSalesOrderDetails(
         territory,
         parsedStartDate,
@@ -43,7 +46,9 @@ namespace RSMFinalProject.Server.Controllers
         category,
         subcategory,
         salesperson,
-        onlineOrder).Take(20);
+        onlineOrder).Skip(itemsToSkip)
+                                    .Take(pageSize)
+                                    .ToList(); ;
 
             return Ok(salesDetails);
 
@@ -54,9 +59,15 @@ namespace RSMFinalProject.Server.Controllers
         public ActionResult<IEnumerable<SalesPerformanceDTO>> GetSalesPerformance(
         [FromQuery] string? product,
         [FromQuery] string? category,
-        [FromQuery] string? territory)
+        [FromQuery] string? territory,
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 20)
         {
-            var salesPerformance = _context.GetSalesPerformance(category, product, territory).Take(20);
+            int itemsToSkip = (pageNumber - 1) * pageSize;
+            var salesPerformance = _context.GetSalesPerformance(category, product, territory)
+                                    .Skip(itemsToSkip)
+                                    .Take(pageSize)
+                                    .ToList();
 
             return Ok(salesPerformance);
         }
