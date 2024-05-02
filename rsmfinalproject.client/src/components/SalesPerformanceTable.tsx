@@ -1,8 +1,8 @@
 import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
-import useSalesPerformanceData from "../hooks/useSalesPerformance";
+import useSalesPerformance from "../hooks/useSalesPerformance";
 
 const SalesPerformanceTable = () => {
-    const {salesPerformanceRecords, error, loading} = useSalesPerformanceData();
+    const { data, error, loading } = useSalesPerformance();
 
     return (
         <>
@@ -29,7 +29,7 @@ const SalesPerformanceTable = () => {
                                 </Tr>
                             ))
                         ) : (
-                            salesPerformanceRecords.map((record) => (
+                            data.map((record) => (
                                 <Tr key={record.id}>
                                     <Td>{record.productName}</Td>
                                     <Td>{record.productCategory}</Td>
@@ -49,7 +49,7 @@ const SalesPerformanceTable = () => {
                 </Table>
             </TableContainer>
         </>
-  );
+    );
 }
 
 export default SalesPerformanceTable;

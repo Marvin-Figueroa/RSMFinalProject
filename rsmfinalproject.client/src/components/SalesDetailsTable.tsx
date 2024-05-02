@@ -2,7 +2,7 @@ import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from 
 import useSalesDetails from "../hooks/useSalesDetails";
 
 const SalesDetailsTable = () => {
-    const { salesDetailsRecords, error, loading } = useSalesDetails();
+    const { data, error, loading } = useSalesDetails();
 
     return (
         <>
@@ -34,7 +34,7 @@ const SalesDetailsTable = () => {
                                 </Tr>
                             ))
                         ) : (
-                            salesDetailsRecords.map((record) => (
+                            data.map((record) => (
                                 <Tr key={record.salesOrderDetailID}>
                                     <Td>{new Date(record.date).toLocaleDateString()}</Td>
                                     <Td>{record.territory}</Td>

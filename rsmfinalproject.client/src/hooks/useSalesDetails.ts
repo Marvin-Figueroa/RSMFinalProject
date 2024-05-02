@@ -1,15 +1,8 @@
-import { useEffect, useState } from "react";
-import apiClient, { CanceledError } from "../services/apiClient";
-
-interface FetchSalesDetailsRecordsResponse {
-    count: number;
-    results: SalesDetailsRecord[];
-}
-
-interface SalesDetailsRecord {
+import useData from "./useData";
+export interface SalesDetailsRecord {
     orderID: number;
     salesOrderDetailID: number;
-    date: string; // Date in ISO 8601 format
+    date: string;
     onlineOrder: boolean;
     territory: string;
     customerPerson: string;
@@ -21,34 +14,10 @@ interface SalesDetailsRecord {
     quantity: number;
     unitPrice: number;
     totalPrice: number;
-  }
-  
-
-const useSalesDetails = () => {
-    const [salesDetailsRecords, setSalesDetailsRecords] = useState<SalesDetailsRecord[]>([])
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        const controller = new AbortController();
-
-        setLoading(true)
-        apiClient.get<FetchSalesDetailsRecordsResponse>('/details', { signal: controller.signal })
-            .then(res => {
-                setSalesDetailsRecords(res.data.results);
-                setLoading(false);
-                setError('');
-            })
-            .catch(error => {
-                setLoading(false)
-                if (error instanceof CanceledError) return;
-                setError(error.message);
-            })
-
-        return () => controller.abort();
-    }, [])
-
-    return {salesDetailsRecords, error, loading}
 }
+
+
+const useSalesDetails = () => useData<SalesDetailsRecord>('/details');
+
 
 export default useSalesDetails
