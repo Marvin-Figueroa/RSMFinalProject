@@ -27,13 +27,14 @@ const useSalesPerformanceData = () => {
         apiClient.get<FetchSalesPerformanceRecordsResponse>('/performance', { signal: controller.signal })
             .then(res => {
                 setSalesPerformanceRecords(res.data.results);
+                setLoading(false);
                 setError('');
             })
             .catch(error => {
+                setLoading(false)
                 if (error instanceof CanceledError) return;
-                setError(error.message)
+                setError(error.message);
             })
-            .finally(() => setLoading(false))
 
         return () => controller.abort();
     }, [])

@@ -3,7 +3,7 @@ import logo from "../assets/finance.png"
 
 const NavBar = () => {
     return (
-        <HStack padding='5px'>
+        <HStack padding='10px'>
             <Image src={logo} boxSize='50px' />
        </HStack>
   );

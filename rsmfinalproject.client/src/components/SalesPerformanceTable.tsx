@@ -1,16 +1,53 @@
-import { Text } from "@chakra-ui/react";
+import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import useSalesPerformanceData from "../hooks/useSalesPerformanceData";
 
 const SalesPerformanceTable = () => {
     const {salesPerformanceRecords, error, loading} = useSalesPerformanceData();
 
     return (
-
-        <> {loading && <Text> Loading...</Text >}
-            {error && <Text color='crimson'>{error}</Text> }
-            <ul>{
-                salesPerformanceRecords.map(record => <li key={record.id}>{record.productName}</li>)
-            }</ul>
+        <>
+            {error && <Text color="crimson">{error}</Text>}
+            <TableContainer borderRadius="5px" borderWidth="1px" borderColor="gray.200">
+                <Table variant="simple" size="sm">
+                    <Thead>
+                        <Tr>
+                            <Th>Product</Th>
+                            <Th>Category</Th>
+                            <Th>Region</Th>
+                            <Th>Total Sales</Th>
+                            <Th>% SalesInRegion</Th>
+                            <Th>% CategorySalesInRegion</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {loading ? (
+                            Array.from({ length: 20 }).map((_, index) => (
+                                <Tr key={index}>
+                                    <Td colSpan={6}>
+                                        <Skeleton height="20px" />
+                                    </Td>
+                                </Tr>
+                            ))
+                        ) : (
+                            salesPerformanceRecords.map((record) => (
+                                <Tr key={record.id}>
+                                    <Td>{record.productName}</Td>
+                                    <Td>{record.productCategory}</Td>
+                                    <Td>{record.region}</Td>
+                                    <Td>
+                                        {record.totalSales.toLocaleString('en-US', {
+                                            style: 'currency',
+                                            currency: 'USD',
+                                        })}
+                                    </Td>
+                                    <Td>{record.percentageOfTotalSalesPerRegion} %</Td>
+                                    <Td>{record.percentageOfTotalCategorySalesInRegion} %</Td>
+                                </Tr>
+                            ))
+                        )}
+                    </Tbody>
+                </Table>
+            </TableContainer>
         </>
   );
 }

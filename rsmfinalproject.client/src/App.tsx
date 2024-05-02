@@ -7,7 +7,7 @@ function App() {
     return (
         <Grid templateAreas={`"nav" "main"`}>
             <GridItem area='nav'><NavBar/></GridItem>
-            <GridItem area='main' bg='tomato'>{<SalesPerformanceTable/>}</GridItem>
+            <GridItem area='main' padding='10px'>{<SalesPerformanceTable/>}</GridItem>
         </Grid>
     );
 }
