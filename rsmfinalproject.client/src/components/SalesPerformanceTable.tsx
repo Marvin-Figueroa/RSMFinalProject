@@ -1,38 +1,8 @@
-import { useEffect, useState } from "react";
-
 import { Text } from "@chakra-ui/react";
-
-import apiClient from "../services/apiClient";
-
-interface FetchSalesPerformanceRecordsResponse {
-    count: number;
-    results: SalesPerformanceRecord[];
-}
-interface SalesPerformanceRecord {
-    id: number;
-    productName: string;
-    productCategory: string;
-    region: string;
-    totalSales: number;
-    percentageOfTotalSalesPerRegion: number;
-    percentageOfTotalCategorySalesInRegion: number;
-}
+import useSalesPerformanceData from "../hooks/useSalesPerformanceData";
 
 const SalesPerformanceTable = () => {
-    const [salesPerformanceRecords, setSalesPerformanceRecords] = useState<SalesPerformanceRecord[]>([])
-    const [error, setError] = useState("")
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        setLoading(true)
-        apiClient.get<FetchSalesPerformanceRecordsResponse>('/performance')
-            .then(res => {
-                setSalesPerformanceRecords(res.data.results);
-                setError('');
-            })
-            .catch(error => setError(error.message))
-        .finally(() => setLoading(false))
-    }, [])
+    const {salesPerformanceRecords, error, loading} = useSalesPerformanceData();
 
     return (
 
