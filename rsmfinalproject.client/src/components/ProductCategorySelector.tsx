@@ -1,15 +1,19 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import { BsChevronDown } from "react-icons/bs"
-import useProductCategories from "../hooks/useProductCategories"
+import useProductCategories, { ProductCategory } from "../hooks/useProductCategories"
 
-const ProductCategorySelector = () => {
+interface Props {
+    onSelectProductCategory: (category: ProductCategory) => void;
+}
+
+const ProductCategorySelector = ({ onSelectProductCategory }: Props) => {
     const { data } = useProductCategories();
 
     return (
         <Menu>
             <MenuButton as={Button} rightIcon={<BsChevronDown />}>Product Category</MenuButton>
             <MenuList>
-                {data.map(category => <MenuItem key={category.id}>{category.name}</MenuItem>)}
+                {data.map(category => <MenuItem onClick={() => onSelectProductCategory(category)} key={category.id}>{category.name}</MenuItem>)}
             </MenuList>
         </Menu>
     )

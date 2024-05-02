@@ -1,8 +1,13 @@
 import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import useSalesPerformance from "../hooks/useSalesPerformance";
+import { ProductCategory } from "../hooks/useProductCategories";
 
-const SalesPerformanceTable = () => {
-    const { data, error, loading } = useSalesPerformance();
+interface Props {
+    selectedProductCategory: ProductCategory | null
+}
+
+const SalesPerformanceTable = ({ selectedProductCategory }: Props) => {
+    const { data, error, loading } = useSalesPerformance(selectedProductCategory);
 
     return (
         <>

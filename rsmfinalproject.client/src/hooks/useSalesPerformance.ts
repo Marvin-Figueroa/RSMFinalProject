@@ -1,4 +1,5 @@
 import useData from "./useData";
+import { ProductCategory } from "./useProductCategories";
 export interface SalesPerformanceRecord {
     id: number;
     productName: string;
@@ -9,6 +10,7 @@ export interface SalesPerformanceRecord {
     percentageOfTotalCategorySalesInRegion: number;
 }
 
-const useSalesPerformance = () => useData<SalesPerformanceRecord>('/performance');
+const useSalesPerformance = (selectedProductCategory: ProductCategory | null) => useData<SalesPerformanceRecord>('/performance',
+    { params: { category: selectedProductCategory?.name } }, [selectedProductCategory?.name]);
 
 export default useSalesPerformance
