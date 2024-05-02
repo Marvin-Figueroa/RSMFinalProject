@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using RSMFinalProject.Server.Data;
 using RSMFinalProject.Server.DTOs;
+using RSMFinalProject.Server.Models;
 
 namespace RSMFinalProject.Server.Controllers
 {
@@ -46,11 +48,21 @@ namespace RSMFinalProject.Server.Controllers
         category,
         subcategory,
         salesperson,
-        onlineOrder).Skip(itemsToSkip)
-                                    .Take(pageSize)
-                                    .ToList(); ;
+        onlineOrder);
 
-            return Ok(salesDetails);
+            int count = salesDetails.Count();
+
+            salesDetails = salesDetails.Skip(itemsToSkip).Take(pageSize);
+
+            var results = salesDetails.ToList();
+
+            var paginatedResult = new PaginatedResult<SalesOrderDetailsDTO>
+            {
+                Count = count,
+                Results = results
+            };
+
+            return Ok(paginatedResult);
 
         }
 
@@ -64,13 +76,24 @@ namespace RSMFinalProject.Server.Controllers
         [FromQuery] int pageSize = 20)
         {
             int itemsToSkip = (pageNumber - 1) * pageSize;
-            var salesPerformance = _context.GetSalesPerformance(category, product, territory)
-                                    .Skip(itemsToSkip)
-                                    .Take(pageSize)
-                                    .ToList();
+            var salesPerformance = _context.GetSalesPerformance(category, product, territory);
 
-            return Ok(salesPerformance);
+
+            int count = salesPerformance.Count();
+
+            salesPerformance = salesPerformance.Skip(itemsToSkip).Take(pageSize);
+
+            var results = salesPerformance.ToList();
+
+            var paginatedResult = new PaginatedResult<SalesPerformanceDTO>
+            {
+                Count = count,
+                Results = results
+            };
+
+            return Ok(paginatedResult);
         }
+
 
 
     }
