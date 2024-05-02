@@ -2,14 +2,14 @@ import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from 
 import useSalesPerformance from "../hooks/useSalesPerformance";
 import { ProductCategory } from "../hooks/useProductCategories";
 import { Region } from "../hooks/useSalesRegions";
+import { SalesPerformanceQuery } from "../App";
 
 interface Props {
-    selectedProductCategory: ProductCategory | null
-    selectedSalesRegion: Region | null
+    salesPerformanceQuery: SalesPerformanceQuery;
 }
 
-const SalesPerformanceTable = ({ selectedProductCategory, selectedSalesRegion }: Props) => {
-    const { data, error, loading } = useSalesPerformance(selectedProductCategory, selectedSalesRegion);
+const SalesPerformanceTable = ({ salesPerformanceQuery }: Props) => {
+    const { data, error, loading } = useSalesPerformance(salesPerformanceQuery);
 
     return (
         <>

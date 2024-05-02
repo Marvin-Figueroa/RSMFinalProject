@@ -7,22 +7,26 @@ import { useState } from "react";
 import { Region } from "./hooks/useSalesRegions";
 import SalesRegionSelector from "./components/SalesRegionSelector";
 
+export interface SalesPerformanceQuery {
+    category: ProductCategory | null;
+    territory: Region | null;
+}
+
 function App() {
 
-    const [selectedProductCategory, setSelectedProductCategory] = useState<ProductCategory | null>(null);
-    const [selectedSalesRegion, setSelectedSalesRegion] = useState<Region | null>(null);
+    const [salesPerformanceQuery, setSalesPerformanceQuery] = useState<SalesPerformanceQuery>({} as SalesPerformanceQuery);
 
     return (
         <Grid templateAreas={`"nav" "main"`}>
             <GridItem area='nav'><NavBar /></GridItem>
             <GridItem area='main' padding='10px'>
                 <ProductCategorySelector
-                    selectedProductCategory={selectedProductCategory}
-                    onSelectProductCategory={(category) => setSelectedProductCategory(category)} />
+                    selectedProductCategory={salesPerformanceQuery.category}
+                    onSelectProductCategory={(category) => setSalesPerformanceQuery({ ...salesPerformanceQuery, category })} />
                 <SalesRegionSelector
-                    selectedSalesRegion={selectedSalesRegion}
-                    onSelectSalesRegion={(region) => setSelectedSalesRegion(region)} />
-                <SalesPerformanceTable selectedProductCategory={selectedProductCategory} selectedSalesRegion={selectedSalesRegion} />
+                    selectedSalesRegion={salesPerformanceQuery.territory}
+                    onSelectSalesRegion={(region) => setSalesPerformanceQuery({ ...salesPerformanceQuery, territory: region })} />
+                <SalesPerformanceTable salesPerformanceQuery={salesPerformanceQuery} />
             </GridItem>
         </Grid>
     );

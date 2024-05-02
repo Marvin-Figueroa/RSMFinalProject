@@ -1,6 +1,5 @@
+import { SalesPerformanceQuery } from "../App";
 import useData from "./useData";
-import { ProductCategory } from "./useProductCategories";
-import { Region } from "./useSalesRegions";
 export interface SalesPerformanceRecord {
     id: number;
     productName: string;
@@ -11,9 +10,9 @@ export interface SalesPerformanceRecord {
     percentageOfTotalCategorySalesInRegion: number;
 }
 
-const useSalesPerformance = (selectedProductCategory: ProductCategory | null, selectedSalesRegion: Region | null) =>
+const useSalesPerformance = (salesPerformanceQuery: SalesPerformanceQuery) =>
     useData<SalesPerformanceRecord>('/performance',
-        { params: { category: selectedProductCategory?.name, territory: selectedSalesRegion?.name } },
-        [selectedProductCategory?.name, selectedSalesRegion?.name]);
+        { params: { category: salesPerformanceQuery.category?.name, territory: salesPerformanceQuery.territory?.name } },
+        [salesPerformanceQuery]);
 
 export default useSalesPerformance
