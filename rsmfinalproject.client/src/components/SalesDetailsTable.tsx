@@ -1,8 +1,13 @@
 import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import useSalesDetails from "../hooks/useSalesDetails";
+import { SalesDetailsQuery } from "../pages/SalesDetailsPage";
 
-const SalesDetailsTable = () => {
-    const { data, error, loading } = useSalesDetails();
+interface Props {
+    salesDetailsQuery: SalesDetailsQuery;
+}
+
+const SalesDetailsTable = ({ salesDetailsQuery }: Props) => {
+    const { data, error, loading } = useSalesDetails(salesDetailsQuery);
 
     return (
         <>

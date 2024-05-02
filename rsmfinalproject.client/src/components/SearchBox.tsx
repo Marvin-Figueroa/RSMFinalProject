@@ -13,7 +13,7 @@ const SearchBox = ({ onSearch, placeholder }: Props) => {
     return (
         <form onSubmit={event => {
             event.preventDefault();
-            if (ref.current) onSearch(ref.current.value);
+            if (ref.current) onSearch(ref.current.value.trim());
         }}>
             <InputGroup>
                 <InputLeftElement children={<BsSearch />} />

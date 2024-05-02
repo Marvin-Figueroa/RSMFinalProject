@@ -1,4 +1,4 @@
-import { SalesPerformanceQuery } from "../App";
+import { SalesPerformanceQuery } from "../pages/SalesPerformancePage";
 import useData from "./useData";
 export interface SalesPerformanceRecord {
     id: number;

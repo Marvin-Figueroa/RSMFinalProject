@@ -1,6 +1,6 @@
 import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import useSalesPerformance from "../hooks/useSalesPerformance";
-import { SalesPerformanceQuery } from "../App";
+import { SalesPerformanceQuery } from "../pages/SalesPerformancePage";
 
 interface Props {
     salesPerformanceQuery: SalesPerformanceQuery;

@@ -1,3 +1,4 @@
+import { SalesDetailsQuery } from "../pages/SalesDetailsPage";
 import useData from "./useData";
 export interface SalesDetailsRecord {
     orderID: number;
@@ -16,8 +17,15 @@ export interface SalesDetailsRecord {
     totalPrice: number;
 }
 
-
-const useSalesDetails = () => useData<SalesDetailsRecord>('/details');
-
+const useSalesDetails = (salesDetailsQuery: SalesDetailsQuery) =>
+    useData<SalesDetailsRecord>('/details',
+        {
+            params: {
+                category: salesDetailsQuery.category?.name,
+                territory: salesDetailsQuery.territory?.name,
+                search: salesDetailsQuery.textSearch
+            }
+        },
+        [salesDetailsQuery]);
 
 export default useSalesDetails

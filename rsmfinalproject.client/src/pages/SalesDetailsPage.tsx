@@ -1,8 +1,32 @@
+import { HStack } from "@chakra-ui/react";
+import ProductCategorySelector from "../components/ProductCategorySelector";
+import SalesRegionSelector from "../components/SalesRegionSelector";
+import SearchBox from "../components/SearchBox";
+import { ProductCategory } from "../hooks/useProductCategories";
+import { Region } from "../hooks/useSalesRegions";
+import { useState } from "react";
+import SalesDetailsTable from "../components/SalesDetailsTable";
+export interface SalesDetailsQuery {
+    territory: Region | null;
+    category: ProductCategory | null;
+    textSearch: string;
+
+}
+
 const SalesDetailsPage = () => {
+    const [salesDetailsQuery, setSalesDetailsQuery] = useState<SalesDetailsQuery>({} as SalesDetailsQuery);
+
     return (
-        <div>
-            <h1>Sales Details Page</h1>
-        </div>
+        <><HStack display='flex' justifyContent='center' gap='20px' marginY='20px'>
+            <SearchBox placeholder="customer, salesperson, product..."
+                onSearch={(textSearch) => setSalesDetailsQuery({ ...salesDetailsQuery, textSearch })} />
+            <ProductCategorySelector
+                selectedProductCategory={salesDetailsQuery.category}
+                onSelectProductCategory={(category) => setSalesDetailsQuery({ ...salesDetailsQuery, category })} />
+            <SalesRegionSelector
+                selectedSalesRegion={salesDetailsQuery.territory}
+                onSelectSalesRegion={(region) => setSalesDetailsQuery({ ...salesDetailsQuery, territory: region })} />
+        </HStack><SalesDetailsTable salesDetailsQuery={salesDetailsQuery} /></>
     );
 }
 
