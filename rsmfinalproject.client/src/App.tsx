@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, HStack } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import SalesPerformanceTable from "./components/SalesPerformanceTable";
 import ProductCategorySelector from "./components/ProductCategorySelector";
@@ -6,6 +6,7 @@ import { ProductCategory } from "./hooks/useProductCategories";
 import { useState } from "react";
 import { Region } from "./hooks/useSalesRegions";
 import SalesRegionSelector from "./components/SalesRegionSelector";
+import SearchBox from "./components/SearchBox";
 
 export interface SalesPerformanceQuery {
     category: ProductCategory | null;
@@ -20,12 +21,15 @@ function App() {
         <Grid templateAreas={`"nav" "main"`}>
             <GridItem area='nav'><NavBar /></GridItem>
             <GridItem area='main' padding='10px'>
-                <ProductCategorySelector
-                    selectedProductCategory={salesPerformanceQuery.category}
-                    onSelectProductCategory={(category) => setSalesPerformanceQuery({ ...salesPerformanceQuery, category })} />
-                <SalesRegionSelector
-                    selectedSalesRegion={salesPerformanceQuery.territory}
-                    onSelectSalesRegion={(region) => setSalesPerformanceQuery({ ...salesPerformanceQuery, territory: region })} />
+                <HStack justifyContent='center' padding='10px'>
+                    <SearchBox />
+                    <ProductCategorySelector
+                        selectedProductCategory={salesPerformanceQuery.category}
+                        onSelectProductCategory={(category) => setSalesPerformanceQuery({ ...salesPerformanceQuery, category })} />
+                    <SalesRegionSelector
+                        selectedSalesRegion={salesPerformanceQuery.territory}
+                        onSelectSalesRegion={(region) => setSalesPerformanceQuery({ ...salesPerformanceQuery, territory: region })} />
+                </HStack>
                 <SalesPerformanceTable salesPerformanceQuery={salesPerformanceQuery} />
             </GridItem>
         </Grid>

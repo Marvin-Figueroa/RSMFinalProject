@@ -1,7 +1,5 @@
 import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import useSalesPerformance from "../hooks/useSalesPerformance";
-import { ProductCategory } from "../hooks/useProductCategories";
-import { Region } from "../hooks/useSalesRegions";
 import { SalesPerformanceQuery } from "../App";
 
 interface Props {
