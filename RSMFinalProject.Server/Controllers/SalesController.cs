@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 using RSMFinalProject.Server.Data;
 using RSMFinalProject.Server.DTOs;
@@ -24,15 +23,12 @@ namespace RSMFinalProject.Server.Controllers
              [FromQuery] string? startDate,
              [FromQuery] string? endDate,
              [FromQuery] string? territory = null,
-             [FromQuery] string? customerPerson = null,
-             [FromQuery] string? customerStore = null,
-             [FromQuery] string? product = null,
+             [FromQuery] string? searchText = null,
              [FromQuery] string? category = null,
              [FromQuery] string? subcategory = null,
-             [FromQuery] string? salesperson = null,
              [FromQuery] bool? onlineOrder = null,
              [FromQuery] int pageNumber = 1,
-             [FromQuery] int pageSize = 20)
+             [FromQuery] int pageSize = 10)
         {
             DateTime? parsedStartDate = string.IsNullOrEmpty(startDate) ? null : DateTime.Parse(startDate);
             DateTime? parsedEndDate = string.IsNullOrEmpty(endDate) ? null : DateTime.Parse(endDate);
@@ -42,12 +38,9 @@ namespace RSMFinalProject.Server.Controllers
         territory,
         parsedStartDate,
         parsedEndDate,
-        customerPerson,
-        customerStore,
-        product,
+        searchText,
         category,
         subcategory,
-        salesperson,
         onlineOrder);
 
             int count = salesDetails.Count();
@@ -73,7 +66,7 @@ namespace RSMFinalProject.Server.Controllers
         [FromQuery] string? category,
         [FromQuery] string? territory,
         [FromQuery] int pageNumber = 1,
-        [FromQuery] int pageSize = 20)
+        [FromQuery] int pageSize = 10)
         {
             int itemsToSkip = (pageNumber - 1) * pageSize;
             var salesPerformance = _context.GetSalesPerformance(category, product, territory);

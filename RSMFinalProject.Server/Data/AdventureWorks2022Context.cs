@@ -35,12 +35,9 @@ public partial class AdventureWorks2022Context : DbContext
      string? territoryName = null,
      DateTime? startDate = null,
      DateTime? endDate = null,
-     string? customerPersonName = null,
-     string? customerStoreName = null,
-     string? productName = null,
+     string? searchText = null,
      string? productCategoryName = null,
      string? productSubcategoryName = null,
-     string? salespersonName = null,
      bool? onlineOrderFlag = null)
     {
         var parameters = new List<SqlParameter>
@@ -48,19 +45,15 @@ public partial class AdventureWorks2022Context : DbContext
         new SqlParameter("@TerritoryName", territoryName != null ? territoryName : DBNull.Value),
         new SqlParameter("@StartDate", startDate.HasValue ? startDate : DBNull.Value),
         new SqlParameter("@EndDate", endDate.HasValue ? endDate : DBNull.Value),
-        new SqlParameter("@CustomerPersonName", customerPersonName != null ? customerPersonName : DBNull.Value),
-        new SqlParameter("@CustomerStoreName", customerStoreName != null ? customerStoreName : DBNull.Value),
-        new SqlParameter("@ProductName", productName != null ? productName : DBNull.Value),
+        new SqlParameter("@Search", searchText != null ? searchText : DBNull.Value),
         new SqlParameter("@ProductCategoryName", productCategoryName != null ? productCategoryName : DBNull.Value),
         new SqlParameter("@ProductSubcategoryName", productSubcategoryName != null ? productCategoryName : DBNull.Value),
-        new SqlParameter("@SalespersonName", salespersonName != null ? salespersonName : DBNull.Value),
         new SqlParameter("@OnlineOrderFlag", onlineOrderFlag.HasValue ? onlineOrderFlag : DBNull.Value)
     };
 
         return this.Set<SalesOrderDetailsDTO>().FromSqlRaw(
-            "EXEC GetSalesOrderDetails @TerritoryName, @StartDate, @EndDate, @CustomerPersonName, " +
-            "@CustomerStoreName, @ProductName, @ProductCategoryName, @ProductSubcategoryName, " +
-            "@SalespersonName, @OnlineOrderFlag",
+            "EXEC GetSalesOrderDetails @TerritoryName, @StartDate, @EndDate, @Search, " +
+            "@ProductCategoryName, @ProductSubcategoryName, @OnlineOrderFlag",
             parameters.ToArray());
     }
 

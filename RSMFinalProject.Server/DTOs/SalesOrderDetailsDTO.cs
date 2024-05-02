@@ -8,7 +8,6 @@
         public bool OnlineOrder { get; set; }
         public string Territory { get; set; }
         public string? CustomerPerson { get; set; }
-        public string? CustomerStore { get; set; }
         public string? Salesperson { get; set; }
         public string Product { get; set; }
         public string Category { get; set; }
