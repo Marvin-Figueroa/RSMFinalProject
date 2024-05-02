@@ -12,7 +12,13 @@ export interface SalesPerformanceRecord {
 
 const useSalesPerformance = (salesPerformanceQuery: SalesPerformanceQuery) =>
     useData<SalesPerformanceRecord>('/performance',
-        { params: { category: salesPerformanceQuery.category?.name, territory: salesPerformanceQuery.territory?.name } },
+        {
+            params: {
+                category: salesPerformanceQuery.category?.name,
+                territory: salesPerformanceQuery.territory?.name,
+                product: salesPerformanceQuery.searchText
+            }
+        },
         [salesPerformanceQuery]);
 
 export default useSalesPerformance

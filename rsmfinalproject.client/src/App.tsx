@@ -11,6 +11,7 @@ import SearchBox from "./components/SearchBox";
 export interface SalesPerformanceQuery {
     category: ProductCategory | null;
     territory: Region | null;
+    searchText: string;
 }
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
             <GridItem area='nav'><NavBar /></GridItem>
             <GridItem area='main' padding='10px'>
                 <HStack justifyContent='center' padding='10px'>
-                    <SearchBox />
+                    <SearchBox onSearch={(searchText) => setSalesPerformanceQuery({ ...salesPerformanceQuery, searchText })} />
                     <ProductCategorySelector
                         selectedProductCategory={salesPerformanceQuery.category}
                         onSelectProductCategory={(category) => setSalesPerformanceQuery({ ...salesPerformanceQuery, category })} />
