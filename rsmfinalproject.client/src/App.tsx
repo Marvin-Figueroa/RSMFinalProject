@@ -13,7 +13,9 @@ function App() {
         <Grid templateAreas={`"nav" "main"`}>
             <GridItem area='nav'><NavBar /></GridItem>
             <GridItem area='main' padding='10px'>
-                <ProductCategorySelector onSelectProductCategory={(category) => setSelectedProductCategory(category)} />
+                <ProductCategorySelector
+                    selectedProductCategory={selectedProductCategory}
+                    onSelectProductCategory={(category) => setSelectedProductCategory(category)} />
                 <SalesPerformanceTable selectedProductCategory={selectedProductCategory} />
             </GridItem>
         </Grid>

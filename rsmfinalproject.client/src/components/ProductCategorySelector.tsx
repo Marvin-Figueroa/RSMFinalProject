@@ -4,14 +4,17 @@ import useProductCategories, { ProductCategory } from "../hooks/useProductCatego
 
 interface Props {
     onSelectProductCategory: (category: ProductCategory) => void;
+    selectedProductCategory: ProductCategory | null
 }
 
-const ProductCategorySelector = ({ onSelectProductCategory }: Props) => {
+const ProductCategorySelector = ({ onSelectProductCategory, selectedProductCategory }: Props) => {
     const { data } = useProductCategories();
 
     return (
         <Menu>
-            <MenuButton as={Button} rightIcon={<BsChevronDown />}>Product Category</MenuButton>
+            <MenuButton as={Button} rightIcon={<BsChevronDown />}>
+                {selectedProductCategory?.name || 'Product Category'}
+            </MenuButton>
             <MenuList>
                 {data.map(category => <MenuItem onClick={() => onSelectProductCategory(category)} key={category.id}>{category.name}</MenuItem>)}
             </MenuList>
