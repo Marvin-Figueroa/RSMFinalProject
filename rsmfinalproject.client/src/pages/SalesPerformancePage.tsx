@@ -17,7 +17,7 @@ const SalesPerformancePage = () => {
     const [salesPerformanceQuery, setSalesPerformanceQuery] = useState<SalesPerformanceQuery>({} as SalesPerformanceQuery);
 
     return (
-        <><HStack display='flex' justifyContent='center' gap='20px' marginY='20px'>
+        <><HStack display='flex' justifyContent='center' gap='20px' marginY='30px'>
             <SearchBox placeholder="product..." onSearch={(searchText) => setSalesPerformanceQuery({ ...salesPerformanceQuery, searchText })} />
             <ProductCategorySelector
                 selectedProductCategory={salesPerformanceQuery.category}

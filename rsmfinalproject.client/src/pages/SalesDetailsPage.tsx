@@ -17,7 +17,7 @@ const SalesDetailsPage = () => {
     const [salesDetailsQuery, setSalesDetailsQuery] = useState<SalesDetailsQuery>({} as SalesDetailsQuery);
 
     return (
-        <><HStack display='flex' justifyContent='center' gap='20px' marginY='20px'>
+        <><HStack display='flex' justifyContent='center' gap='20px' marginY='30px'>
             <SearchBox placeholder="customer, salesperson, product..."
                 onSearch={(textSearch) => setSalesDetailsQuery({ ...salesDetailsQuery, textSearch })} />
             <ProductCategorySelector
