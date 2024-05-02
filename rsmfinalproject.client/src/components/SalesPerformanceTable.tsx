@@ -1,5 +1,5 @@
 import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
-import useSalesPerformanceData from "../hooks/useSalesPerformanceData";
+import useSalesPerformanceData from "../hooks/useSalesPerformance";
 
 const SalesPerformanceTable = () => {
     const {salesPerformanceRecords, error, loading} = useSalesPerformanceData();
