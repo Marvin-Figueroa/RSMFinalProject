@@ -11,7 +11,7 @@ const Layout = ({ children }: Props) => {
 
         <Grid templateAreas={`"nav" "main"`} minHeight='100vh'>
             <GridItem area='nav'><NavBar /></GridItem>
-            <GridItem minHeight='60vh' area='main' paddingX='20px'>
+            <GridItem minHeight='80vh' area='main' paddingX='20px'>
                 {children}
             </GridItem>
         </Grid>

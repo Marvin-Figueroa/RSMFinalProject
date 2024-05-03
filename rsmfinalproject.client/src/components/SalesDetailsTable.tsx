@@ -1,17 +1,12 @@
-import { Box, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
-import useSalesDetails from "../hooks/useSalesDetails";
-import { SalesDetailsQuery } from "../pages/SalesDetailsPage";
-import { Pagination } from "antd";
+import { Skeleton, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { SalesDetailsRecord } from "../hooks/useSalesDetails";
 
 interface Props {
-    salesDetailsQuery: SalesDetailsQuery;
-    onPageChange: (page: number, size: number) => void;
+    data: SalesDetailsRecord[]
+    loading: boolean
 }
 
-const SalesDetailsTable = ({ salesDetailsQuery, onPageChange }: Props) => {
-    const { data, error, loading } = useSalesDetails(salesDetailsQuery);
-
-    if (error) return <Text color="crimson">{error}</Text>
+const SalesDetailsTable = ({ data, loading }: Props) => {
 
     return (
         <>
@@ -41,7 +36,7 @@ const SalesDetailsTable = ({ salesDetailsQuery, onPageChange }: Props) => {
                                 </Tr>
                             ))
                         ) : (
-                            data?.results.map((record) => (
+                            data.map((record) => (
                                 <Tr key={record.salesOrderDetailID}>
                                     <Td>{new Date(record.date).toLocaleDateString()}</Td>
                                     <Td>{record.territory}</Td>
@@ -65,14 +60,7 @@ const SalesDetailsTable = ({ salesDetailsQuery, onPageChange }: Props) => {
                     </Tbody>
                 </Table>
             </TableContainer>
-            <Box marginY='10px' display='flex' justifyContent='center'>
-                <Pagination
-                    current={salesDetailsQuery.pageNumber}
-                    onChange={(page, size) => onPageChange(page, size)}
-                    total={data?.count}
-                    hideOnSinglePage
-                />
-            </Box>
+
         </>
     );
 }

@@ -1,4 +1,4 @@
-import { Box, Checkbox, HStack } from "@chakra-ui/react";
+import { Box, Checkbox, HStack, Text } from "@chakra-ui/react";
 import ProductCategorySelector from "../components/ProductCategorySelector";
 import SalesRegionSelector from "../components/SalesRegionSelector";
 import SearchBox from "../components/SearchBox";
@@ -7,6 +7,9 @@ import { Region } from "../hooks/useSalesRegions";
 import { useState } from "react";
 import SalesDetailsTable from "../components/SalesDetailsTable";
 import DatePicker from "../components/DatePicker";
+import useSalesDetails from "../hooks/useSalesDetails";
+import { Pagination } from "antd";
+import SalesDetailsReportMenu from "../components/SalesDetailsReportMenu";
 export interface SalesDetailsQuery {
     territory: Region | null;
     category: ProductCategory | null;
@@ -21,6 +24,10 @@ export interface SalesDetailsQuery {
 
 const SalesDetailsPage = () => {
     const [salesDetailsQuery, setSalesDetailsQuery] = useState<SalesDetailsQuery>({} as SalesDetailsQuery);
+    const { data, error, loading } = useSalesDetails(salesDetailsQuery);
+
+    if (error) return <Text textAlign='center' color="crimson">{error}</Text>
+
 
     return (
         <><HStack display='flex' justifyContent='center' gap='20px' marginY='30px'>
@@ -49,12 +56,19 @@ const SalesDetailsPage = () => {
                     onSelectDate={(date) => setSalesDetailsQuery({ ...salesDetailsQuery, endDate: date })}
                 />
             </Box>
+            <SalesDetailsReportMenu data={data.results} />
         </HStack>
             <SalesDetailsTable
-                salesDetailsQuery={salesDetailsQuery}
-                onPageChange={(page, size) => setSalesDetailsQuery({ ...salesDetailsQuery, pageNumber: page, pageSize: size })}
-
-            /></>
+                data={data.results}
+                loading={loading}
+            /><Box marginY='20px' display='flex' justifyContent='center'>
+                <Pagination
+                    current={salesDetailsQuery.pageNumber}
+                    onChange={(page, size) => setSalesDetailsQuery({ ...salesDetailsQuery, pageNumber: page, pageSize: size })}
+                    total={data?.count}
+                    hideOnSinglePage
+                />
+            </Box></>
     );
 }
 

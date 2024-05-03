@@ -1,4 +1,4 @@
-import { HStack } from "@chakra-ui/react";
+import { Box, HStack, Text } from "@chakra-ui/react";
 import ProductCategorySelector from "../components/ProductCategorySelector";
 import SalesPerformanceTable from "../components/SalesPerformanceTable";
 import SalesRegionSelector from "../components/SalesRegionSelector";
@@ -6,6 +6,9 @@ import SearchBox from "../components/SearchBox";
 import { ProductCategory } from "../hooks/useProductCategories";
 import { Region } from "../hooks/useSalesRegions";
 import { useState } from "react";
+import { Pagination } from "antd";
+import useSalesPerformance from "../hooks/useSalesPerformance";
+import SalesPerformanceReportMenu from "../components/SalesPerformanceReportMenu";
 
 export interface SalesPerformanceQuery {
     category: ProductCategory | null;
@@ -17,20 +20,36 @@ export interface SalesPerformanceQuery {
 
 const SalesPerformancePage = () => {
     const [salesPerformanceQuery, setSalesPerformanceQuery] = useState<SalesPerformanceQuery>({} as SalesPerformanceQuery);
+    const { data, error, loading } = useSalesPerformance(salesPerformanceQuery);
+
+    if (error) return <Text textAlign='center' color='crimson'>{error}</Text>
 
     return (
-        <><HStack display='flex' justifyContent='center' gap='20px' marginY='30px'>
-            <SearchBox placeholder="product..." onSearch={(searchText) => setSalesPerformanceQuery({ ...salesPerformanceQuery, searchText })} />
-            <ProductCategorySelector
-                selectedProductCategory={salesPerformanceQuery.category}
-                onSelectProductCategory={(category) => setSalesPerformanceQuery({ ...salesPerformanceQuery, category })} />
-            <SalesRegionSelector
-                selectedSalesRegion={salesPerformanceQuery.territory}
-                onSelectSalesRegion={(region) => setSalesPerformanceQuery({ ...salesPerformanceQuery, territory: region })} />
-        </HStack><SalesPerformanceTable
-                salesPerformanceQuery={salesPerformanceQuery}
-                onPageChange={(page, size) => setSalesPerformanceQuery({ ...salesPerformanceQuery, pageNumber: page, pageSize: size })}
-            /></>
+        <>
+
+            <HStack display='flex' justifyContent='center' gap='20px' marginY='30px'>
+                <SearchBox placeholder="product..." onSearch={(searchText) => setSalesPerformanceQuery({ ...salesPerformanceQuery, searchText })} />
+                <ProductCategorySelector
+                    selectedProductCategory={salesPerformanceQuery.category}
+                    onSelectProductCategory={(category) => setSalesPerformanceQuery({ ...salesPerformanceQuery, category })} />
+                <SalesRegionSelector
+                    selectedSalesRegion={salesPerformanceQuery.territory}
+                    onSelectSalesRegion={(region) => setSalesPerformanceQuery({ ...salesPerformanceQuery, territory: region })} />
+                <SalesPerformanceReportMenu data={data.results} />
+            </HStack>
+            <SalesPerformanceTable
+                data={data.results}
+                loading={loading}
+            />
+            <Box marginY='20px' display='flex' justifyContent='center'>
+                <Pagination
+                    current={salesPerformanceQuery.pageNumber}
+                    onChange={(page, size) => setSalesPerformanceQuery({ ...salesPerformanceQuery, pageNumber: page, pageSize: size })}
+                    total={data?.count}
+                    hideOnSinglePage
+                />
+            </Box>
+        </>
     );
 }
 
