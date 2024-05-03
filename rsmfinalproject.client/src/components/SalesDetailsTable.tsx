@@ -1,17 +1,20 @@
-import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import useSalesDetails from "../hooks/useSalesDetails";
 import { SalesDetailsQuery } from "../pages/SalesDetailsPage";
+import { Pagination } from "antd";
 
 interface Props {
     salesDetailsQuery: SalesDetailsQuery;
+    onPageChange: (page: number, size: number) => void;
 }
 
-const SalesDetailsTable = ({ salesDetailsQuery }: Props) => {
+const SalesDetailsTable = ({ salesDetailsQuery, onPageChange }: Props) => {
     const { data, error, loading } = useSalesDetails(salesDetailsQuery);
+
+    if (error) return <Text color="crimson">{error}</Text>
 
     return (
         <>
-            {error && <Text color="crimson">{error}</Text>}
             <TableContainer borderRadius="5px" borderWidth="1px" borderColor="gray.200">
                 <Table variant="simple" size="sm">
                     <Thead>
@@ -38,7 +41,7 @@ const SalesDetailsTable = ({ salesDetailsQuery }: Props) => {
                                 </Tr>
                             ))
                         ) : (
-                            data.map((record) => (
+                            data?.results.map((record) => (
                                 <Tr key={record.salesOrderDetailID}>
                                     <Td>{new Date(record.date).toLocaleDateString()}</Td>
                                     <Td>{record.territory}</Td>
@@ -62,6 +65,14 @@ const SalesDetailsTable = ({ salesDetailsQuery }: Props) => {
                     </Tbody>
                 </Table>
             </TableContainer>
+            <Box marginY='10px' display='flex' justifyContent='center'>
+                <Pagination
+                    current={salesDetailsQuery.pageNumber}
+                    onChange={(page, size) => onPageChange(page, size)}
+                    total={data?.count}
+                    hideOnSinglePage
+                />
+            </Box>
         </>
     );
 }

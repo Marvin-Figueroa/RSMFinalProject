@@ -16,7 +16,9 @@ const useSalesPerformance = (salesPerformanceQuery: SalesPerformanceQuery) =>
             params: {
                 category: salesPerformanceQuery.category?.name,
                 territory: salesPerformanceQuery.territory?.name,
-                product: salesPerformanceQuery.searchText
+                product: salesPerformanceQuery.searchText,
+                pageNumber: salesPerformanceQuery.pageNumber,
+                pageSize: salesPerformanceQuery.pageSize
             }
         },
         [salesPerformanceQuery]);

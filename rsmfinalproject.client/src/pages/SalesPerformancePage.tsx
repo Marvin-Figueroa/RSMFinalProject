@@ -11,6 +11,8 @@ export interface SalesPerformanceQuery {
     category: ProductCategory | null;
     territory: Region | null;
     searchText: string;
+    pageNumber: number;
+    pageSize: number;
 }
 
 const SalesPerformancePage = () => {
@@ -25,7 +27,10 @@ const SalesPerformancePage = () => {
             <SalesRegionSelector
                 selectedSalesRegion={salesPerformanceQuery.territory}
                 onSelectSalesRegion={(region) => setSalesPerformanceQuery({ ...salesPerformanceQuery, territory: region })} />
-        </HStack><SalesPerformanceTable salesPerformanceQuery={salesPerformanceQuery} /></>
+        </HStack><SalesPerformanceTable
+                salesPerformanceQuery={salesPerformanceQuery}
+                onPageChange={(page, size) => setSalesPerformanceQuery({ ...salesPerformanceQuery, pageNumber: page, pageSize: size })}
+            /></>
     );
 }
 

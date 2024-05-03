@@ -14,6 +14,8 @@ export interface SalesDetailsQuery {
     onlineOrder: boolean;
     startDate: string;
     endDate: string;
+    pageNumber: number;
+    pageSize: number;
 
 }
 
@@ -47,7 +49,12 @@ const SalesDetailsPage = () => {
                     onSelectDate={(date) => setSalesDetailsQuery({ ...salesDetailsQuery, endDate: date })}
                 />
             </Box>
-        </HStack><SalesDetailsTable salesDetailsQuery={salesDetailsQuery} /></>
+        </HStack>
+            <SalesDetailsTable
+                salesDetailsQuery={salesDetailsQuery}
+                onPageChange={(page, size) => setSalesDetailsQuery({ ...salesDetailsQuery, pageNumber: page, pageSize: size })}
+
+            /></>
     );
 }
 

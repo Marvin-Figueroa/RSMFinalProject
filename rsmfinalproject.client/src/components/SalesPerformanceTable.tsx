@@ -1,17 +1,20 @@
-import { Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Skeleton, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
 import useSalesPerformance from "../hooks/useSalesPerformance";
 import { SalesPerformanceQuery } from "../pages/SalesPerformancePage";
+import { Pagination } from "antd";
 
 interface Props {
     salesPerformanceQuery: SalesPerformanceQuery;
+    onPageChange: (page: number, size: number) => void;
 }
 
-const SalesPerformanceTable = ({ salesPerformanceQuery }: Props) => {
+const SalesPerformanceTable = ({ salesPerformanceQuery, onPageChange }: Props) => {
     const { data, error, loading } = useSalesPerformance(salesPerformanceQuery);
+
+    if (error) return <Text textAlign='center' color="crimson">{error}</Text>
 
     return (
         <>
-            {error && <Text color="crimson">{error}</Text>}
             <TableContainer borderRadius="5px" borderWidth="1px" borderColor="gray.200">
                 <Table variant="simple" size="sm">
                     <Thead>
@@ -34,7 +37,7 @@ const SalesPerformanceTable = ({ salesPerformanceQuery }: Props) => {
                                 </Tr>
                             ))
                         ) : (
-                            data.map((record) => (
+                            data?.results.map((record) => (
                                 <Tr key={record.id}>
                                     <Td>{record.productName}</Td>
                                     <Td>{record.productCategory}</Td>
@@ -53,6 +56,15 @@ const SalesPerformanceTable = ({ salesPerformanceQuery }: Props) => {
                     </Tbody>
                 </Table>
             </TableContainer>
+            <Box marginY='10px' display='flex' justifyContent='center'>
+                <Pagination
+                    current={salesPerformanceQuery.pageNumber}
+                    onChange={(page, size) => onPageChange(page, size)}
+                    total={data?.count}
+                    hideOnSinglePage
+                />
+            </Box>
+
         </>
     );
 }

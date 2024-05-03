@@ -9,9 +9,9 @@ interface Props {
 const Layout = ({ children }: Props) => {
     return (
 
-        <Grid templateAreas={`"nav" "main"`}>
+        <Grid templateAreas={`"nav" "main"`} minHeight='100vh'>
             <GridItem area='nav'><NavBar /></GridItem>
-            <GridItem area='main' paddingX='20px'>
+            <GridItem minHeight='60vh' area='main' paddingX='20px'>
                 {children}
             </GridItem>
         </Grid>
