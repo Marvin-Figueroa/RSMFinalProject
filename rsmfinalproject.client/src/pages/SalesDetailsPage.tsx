@@ -31,10 +31,10 @@ const SalesDetailsPage = () => {
 
     return (
         <><HStack display='flex' justifyContent='center' gap='20px' marginY='30px'>
-            <Checkbox checked={salesDetailsQuery.onlineOrder} colorScheme='green' onChange={() => setSalesDetailsQuery({ ...salesDetailsQuery, onlineOrder: !salesDetailsQuery.onlineOrder })} >
+            <Checkbox disabled={loading} checked={salesDetailsQuery.onlineOrder} colorScheme='orange' onChange={() => setSalesDetailsQuery({ ...salesDetailsQuery, onlineOrder: !salesDetailsQuery.onlineOrder })} >
                 Online Sales
             </Checkbox>
-            <SearchBox placeholder="customer, salesperson, product..."
+            <SearchBox disabled={loading} placeholder="customer, salesperson, product..."
                 onSearch={(textSearch) => setSalesDetailsQuery({ ...salesDetailsQuery, textSearch })} />
             <ProductCategorySelector
                 selectedProductCategory={salesDetailsQuery.category}
@@ -44,12 +44,14 @@ const SalesDetailsPage = () => {
                 onSelectSalesRegion={(region) => setSalesDetailsQuery({ ...salesDetailsQuery, territory: region })} />
             <Box display='flex' gap='10px'>
                 <DatePicker
+                    disabled={loading}
                     labelText="From"
                     maxDate={salesDetailsQuery.endDate ? salesDetailsQuery.endDate : new Date().toISOString().slice(0, 10)}
                     minDate="2011-05-31"
                     onSelectDate={(date) => setSalesDetailsQuery({ ...salesDetailsQuery, startDate: date })}
                 />
                 <DatePicker
+                    disabled={loading}
                     labelText="To"
                     maxDate={new Date().toISOString().slice(0, 10)}
                     minDate={salesDetailsQuery.startDate ? salesDetailsQuery.startDate : "2011-05-31"}
@@ -63,6 +65,7 @@ const SalesDetailsPage = () => {
                 loading={loading}
             /><Box marginY='20px' display='flex' justifyContent='center'>
                 <Pagination
+                    disabled={loading}
                     current={salesDetailsQuery.pageNumber}
                     onChange={(page, size) => setSalesDetailsQuery({ ...salesDetailsQuery, pageNumber: page, pageSize: size })}
                     total={data?.count}

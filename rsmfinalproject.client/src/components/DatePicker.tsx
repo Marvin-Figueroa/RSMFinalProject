@@ -5,14 +5,16 @@ interface Props {
     onSelectDate: (date: string) => void;
     minDate: string;
     maxDate: string;
+    disabled: boolean;
 }
 
-const DatePicker = ({ labelText, onSelectDate, minDate, maxDate }: Props) => {
+const DatePicker = ({ labelText, onSelectDate, minDate, maxDate, disabled }: Props) => {
 
     return (
         <Box gap='5px' display='flex' alignItems='center'>
-            <Text as='b' color='yellowgreen'>{labelText}:</Text>
+            <Text as='b' color='tomato'>{labelText}:</Text>
             <input
+                disabled={disabled}
                 onKeyDown={(e) => e.preventDefault()}
                 onChange={(e) => {
                     if (!e.target.value) return

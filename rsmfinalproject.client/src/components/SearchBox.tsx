@@ -5,9 +5,10 @@ import { BsSearch } from "react-icons/bs"
 interface Props {
     onSearch: (searchText: string) => void;
     placeholder?: string;
+    disabled: boolean;
 }
 
-const SearchBox = ({ onSearch, placeholder }: Props) => {
+const SearchBox = ({ onSearch, placeholder, disabled }: Props) => {
     const ref = useRef<HTMLInputElement>(null)
 
     return (
@@ -17,7 +18,7 @@ const SearchBox = ({ onSearch, placeholder }: Props) => {
         }}>
             <InputGroup>
                 <InputLeftElement children={<BsSearch />} />
-                <Input ref={ref} borderRadius={5} placeholder={placeholder ? `Search ${placeholder}` : 'Search'} variant='filled' />
+                <Input disabled={disabled} ref={ref} borderRadius={5} placeholder={placeholder ? `Search ${placeholder}` : 'Search'} variant='filled' />
             </InputGroup>
         </form>
     )

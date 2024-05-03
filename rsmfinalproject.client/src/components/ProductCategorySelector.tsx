@@ -4,7 +4,7 @@ import useProductCategories, { ProductCategory } from "../hooks/useProductCatego
 
 interface Props {
     onSelectProductCategory: (category: ProductCategory) => void;
-    selectedProductCategory: ProductCategory | null
+    selectedProductCategory: ProductCategory | null;
 }
 
 const ProductCategorySelector = ({ onSelectProductCategory, selectedProductCategory }: Props) => {
@@ -13,7 +13,7 @@ const ProductCategorySelector = ({ onSelectProductCategory, selectedProductCateg
     return (
         <Menu>
             <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-                {selectedProductCategory?.name || 'Product Category'}
+                {selectedProductCategory?.name || 'Category'}
             </MenuButton>
             <MenuList>
                 {data.map(category => <MenuItem onClick={() => onSelectProductCategory(category)} key={category.id}>{category.name}</MenuItem>)}

@@ -4,7 +4,7 @@ import useSalesRegions, { Region } from "../hooks/useSalesRegions";
 
 interface Props {
     onSelectSalesRegion: (region: Region) => void;
-    selectedSalesRegion: Region | null
+    selectedSalesRegion: Region | null;
 }
 
 const SalesRegionSelector = ({ onSelectSalesRegion: onSelectSalesRegion, selectedSalesRegion }: Props) => {

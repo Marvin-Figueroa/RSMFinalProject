@@ -7,14 +7,14 @@ import { SalesDetailsRecord } from "../hooks/useSalesDetails"
 import SalesDetailsPDFReport from "./SalesDetailsPDFReport"
 
 interface Props {
-    data: SalesDetailsRecord[]
+    data: SalesDetailsRecord[];
 }
 
 const SalesDetailsReportMenu = ({ data }: Props) => {
     return (
         <Menu>
             <MenuButton as={Button} rightIcon={<BsChevronDown />}>
-                Generate Reports
+                Reports
             </MenuButton>
             <MenuList>
                 <PDFDownloadLink document={<SalesDetailsPDFReport data={data} />} fileName="salesDetailsReport.pdf">

@@ -1,17 +1,23 @@
-import { Box, HStack, Image, Link as ChakraLink, Spacer } from "@chakra-ui/react"
-import logo from "../assets/finance.png"
-import { Link as ReactRouterLink } from "react-router-dom";
+import { Box, HStack, Image, Spacer } from "@chakra-ui/react"
+import logo from "../assets/growth.png"
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
     return (
-        <HStack justifyContent='space-between' alignItems='center' padding='10px 20px' bg='yellowgreen'>
+        <HStack justifyContent='space-between' alignItems='center' padding='10px 20px' bg='tomato'>
             <Image src={logo} boxSize='50px' />
             <Box display='flex' flexDir='row' justifyContent='space-between' gap='10px'>
-                <ChakraLink as={ReactRouterLink} to="/">Home</ChakraLink>
+                <NavLink color="red" className={({ isActive }) =>
+                    isActive ? "active" : "navlink"
+                } to="/">Home</NavLink>
                 <Spacer />
-                <ChakraLink as={ReactRouterLink} to="/sales-performance">Overview</ChakraLink>
+                <NavLink className={({ isActive }) =>
+                    isActive ? "active" : "navlink"
+                } to="/sales-performance">Overview</NavLink>
                 <Spacer />
-                <ChakraLink as={ReactRouterLink} to="/sales-details">Details</ChakraLink>
+                <NavLink className={({ isActive }) =>
+                    isActive ? "active" : "navlink"
+                } to="/sales-details">Details</NavLink>
             </Box>
         </HStack>
     );
