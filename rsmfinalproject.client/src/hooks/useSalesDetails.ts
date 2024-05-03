@@ -24,7 +24,9 @@ const useSalesDetails = (salesDetailsQuery: SalesDetailsQuery) =>
                 category: salesDetailsQuery.category?.name,
                 territory: salesDetailsQuery.territory?.name,
                 search: salesDetailsQuery.textSearch,
-                onlineOrder: salesDetailsQuery.onlineOrder
+                onlineOrder: salesDetailsQuery.onlineOrder,
+                startDate: salesDetailsQuery.startDate,
+                endDate: salesDetailsQuery.endDate
             }
         },
         [salesDetailsQuery]);

@@ -1,4 +1,4 @@
-import { Checkbox, HStack } from "@chakra-ui/react";
+import { Box, Checkbox, HStack } from "@chakra-ui/react";
 import ProductCategorySelector from "../components/ProductCategorySelector";
 import SalesRegionSelector from "../components/SalesRegionSelector";
 import SearchBox from "../components/SearchBox";
@@ -6,11 +6,14 @@ import { ProductCategory } from "../hooks/useProductCategories";
 import { Region } from "../hooks/useSalesRegions";
 import { useState } from "react";
 import SalesDetailsTable from "../components/SalesDetailsTable";
+import DatePicker from "../components/DatePicker";
 export interface SalesDetailsQuery {
     territory: Region | null;
     category: ProductCategory | null;
     textSearch: string;
     onlineOrder: boolean;
+    startDate: string;
+    endDate: string;
 
 }
 
@@ -30,7 +33,20 @@ const SalesDetailsPage = () => {
             <SalesRegionSelector
                 selectedSalesRegion={salesDetailsQuery.territory}
                 onSelectSalesRegion={(region) => setSalesDetailsQuery({ ...salesDetailsQuery, territory: region })} />
-
+            <Box display='flex' gap='10px'>
+                <DatePicker
+                    labelText="From"
+                    maxDate={salesDetailsQuery.endDate ? salesDetailsQuery.endDate : new Date().toISOString().slice(0, 10)}
+                    minDate="2011-05-31"
+                    onSelectDate={(date) => setSalesDetailsQuery({ ...salesDetailsQuery, startDate: date })}
+                />
+                <DatePicker
+                    labelText="To"
+                    maxDate={new Date().toISOString().slice(0, 10)}
+                    minDate={salesDetailsQuery.startDate ? salesDetailsQuery.startDate : "2011-05-31"}
+                    onSelectDate={(date) => setSalesDetailsQuery({ ...salesDetailsQuery, endDate: date })}
+                />
+            </Box>
         </HStack><SalesDetailsTable salesDetailsQuery={salesDetailsQuery} /></>
     );
 }
