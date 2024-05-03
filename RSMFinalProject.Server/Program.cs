@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RSMFinalProject.Server.Data;
+using RSMFinalProject.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var allowedOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>();
@@ -9,6 +10,8 @@ var allowedOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[
 builder.Services.AddDbContext<AdventureWorks2022Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("localServer"))
 );
+
+builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
