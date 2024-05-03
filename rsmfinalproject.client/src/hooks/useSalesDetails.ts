@@ -23,7 +23,8 @@ const useSalesDetails = (salesDetailsQuery: SalesDetailsQuery) =>
             params: {
                 category: salesDetailsQuery.category?.name,
                 territory: salesDetailsQuery.territory?.name,
-                search: salesDetailsQuery.textSearch
+                search: salesDetailsQuery.textSearch,
+                onlineOrder: salesDetailsQuery.onlineOrder
             }
         },
         [salesDetailsQuery]);
