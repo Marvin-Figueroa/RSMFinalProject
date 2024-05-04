@@ -133,7 +133,8 @@ BEGIN
         Product, 
         Category, 
         Subcategory;
-END;
+    END;
+```
 
 ## GetSalesPerformance Stored Procedure
 
@@ -221,7 +222,8 @@ BEGIN
         tspcar.TotalSalesPerCategoryAndRegion
     ORDER BY
         PercentageOfTotalCategorySalesInRegion DESC;
-END;
+    END;
+```
 
 ## Redis Setup
 
@@ -261,7 +263,7 @@ END;
     ]
   }
 }
-
+```
  - Modify "localServer", "redisServer", and "CorsOrigins" to match your own configurations.
 
  ## Running the Project
