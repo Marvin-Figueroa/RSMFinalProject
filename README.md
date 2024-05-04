@@ -281,3 +281,27 @@ END;
       KEYS SalesDetails:*
       ```
       This will show the keys that start with 'SalesDetails:'.
+
+11. **Screenshots**
+
+![App - Home Page](./screenshots/homePage.png)
+
+![App - Sales Overview Page](./screenshots/salesPerformancePage.png)
+
+![App - Sales Details Page](./screenshots/salesDetailsPage.png)
+
+![PDF Generated Report](./screenshots/pdfGeneratedReport.png)
+
+![CSV Generated Report](./screenshots/csvGeneratedReport.png)
+
+![Redis Cache Keys History](./screenshots/cacheKeysRedis.png)
+
+![Testing API - Swagger - 1](./screenshots/swagger1.png)
+
+![Testing API - Swagger - 2](./screenshots/swagger2.png)
+
+![Testing API - Swagger - 3](./screenshots/swagger3.png)
+
+![Testing API - Swagger - 4](./screenshots/swagger4.png)
+
+![Testing API - Swagger - 5](./screenshots/swagger5.png)
