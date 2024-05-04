@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
 using RSMFinalProject.Server.Data;
 using RSMFinalProject.Server.Services;
@@ -29,25 +30,25 @@ builder.Services.AddCors(options =>
     });
 });
 
-// builder.Services.AddMemoryCache();
-// builder.Services.Configure<IpRateLimitOptions>(options =>
-// {
-//     options.GeneralRules = new List<RateLimitRule>
-//     {
-//         new RateLimitRule
-//         {
-//             Endpoint = "*",
-//             Period = "10s",
-//             Limit = 50,
-//         }
-//     };
-// });
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(options =>
+{
+    options.GeneralRules = new List<RateLimitRule>
+    {
+        new RateLimitRule
+        {
+            Endpoint = "*",
+            Period = "10s",
+            Limit = 50,
+        }
+    };
+});
 
-// builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-// builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-// builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-// builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
-// builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddInMemoryRateLimiting();
 
 var app = builder.Build();
 
@@ -55,7 +56,7 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 // Add rate limiting middleware
-// app.UseIpRateLimiting();
+app.UseIpRateLimiting();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -34,7 +34,7 @@ const SalesDetailsPage = () => {
             <Checkbox disabled={loading} checked={salesDetailsQuery.onlineOrder} colorScheme='orange' onChange={() => setSalesDetailsQuery({ ...salesDetailsQuery, onlineOrder: !salesDetailsQuery.onlineOrder })} >
                 Online Sales
             </Checkbox>
-            <SearchBox disabled={loading} placeholder="customer"
+            <SearchBox disabled={loading} placeholder="customer, salesperson, product..."
                 onSearch={(textSearch) => setSalesDetailsQuery({ ...salesDetailsQuery, textSearch })} />
             <ProductCategorySelector
                 selectedProductCategory={salesDetailsQuery.category}

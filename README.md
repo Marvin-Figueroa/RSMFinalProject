@@ -113,7 +113,13 @@ BEGIN
     WHERE 
         (@TerritoryName IS NULL OR st.Name = @TerritoryName)
         AND soh.OrderDate BETWEEN @StartDate AND @EndDate
-        AND @Search IS NULL OR CONCAT_WS(' ', p.FirstName, p.LastName) LIKE '%' + @Search + '%'
+        AND (
+            (@Search IS NULL 
+                OR CONCAT_WS(' ', p.FirstName, p.LastName) LIKE '%' + @Search + '%'
+                OR prod.Name LIKE '%' + @Search + '%'
+                OR CONCAT_WS(' ', p2.FirstName, p2.LastName) LIKE '%' + @Search + '%'
+            )
+        )
         AND (@ProductCategoryName IS NULL OR pc.Name LIKE '%' + @ProductCategoryName + '%')
         AND (@ProductSubcategoryName IS NULL OR psc.Name LIKE '%' + @ProductSubcategoryName + '%')
         AND (@OnlineOrderFlag IS NULL OR soh.OnlineOrderFlag = @OnlineOrderFlag)
@@ -127,7 +133,7 @@ BEGIN
         Product, 
         Category, 
         Subcategory;
-END
+    END;
 ```
 
 ## GetSalesPerformance Stored Procedure
