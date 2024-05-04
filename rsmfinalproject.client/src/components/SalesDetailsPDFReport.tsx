@@ -68,7 +68,7 @@ const SalesPerformancePDFReport = ({ data }: Props) => (
                             <Text style={styles.tableCell}>{new Date(record.date).toLocaleDateString()}</Text>
                             <Text style={styles.tableCell}>{record.territory}</Text>
                             <Text style={styles.tableCell}>{record.customerPerson}</Text>
-                            <Text style={styles.tableCell}>{record.salesperson}</Text>
+                            <Text style={styles.tableCell}>{record.salesperson || 'N/A'}</Text>
                             <Text style={styles.tableCell}>
                                 {record.product}
                             </Text>
