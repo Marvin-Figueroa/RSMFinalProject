@@ -15,16 +15,15 @@ builder.Services.AddDbContext<AdventureWorks2022Context>(options =>
 builder.Services.AddScoped<ICacheService, RedisCacheService>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Update your CORS policy to allow requests from 'https://localhost:5173'
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("https://localhost:5173")
+        builder.WithOrigins(allowedOrigins)
                .AllowAnyHeader()
                .AllowAnyMethod();
     });

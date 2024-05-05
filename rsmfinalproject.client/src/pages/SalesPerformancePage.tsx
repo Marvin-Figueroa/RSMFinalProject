@@ -28,13 +28,13 @@ const SalesPerformancePage = () => {
         <>
 
             <HStack display='flex' justifyContent='center' gap='20px' marginY='30px'>
-                <SearchBox placeholder="product..." onSearch={(searchText) => setSalesPerformanceQuery({ ...salesPerformanceQuery, searchText })} />
+                <SearchBox disabled={loading} placeholderText="product..." onSearch={(searchText) => setSalesPerformanceQuery({ ...salesPerformanceQuery, searchText, pageNumber: 1 })} />
                 <ProductCategorySelector
                     selectedProductCategory={salesPerformanceQuery.category}
-                    onSelectProductCategory={(category) => setSalesPerformanceQuery({ ...salesPerformanceQuery, category })} />
+                    onSelectProductCategory={(category) => setSalesPerformanceQuery({ ...salesPerformanceQuery, category, pageNumber: 1 })} />
                 <SalesRegionSelector
                     selectedSalesRegion={salesPerformanceQuery.territory}
-                    onSelectSalesRegion={(region) => setSalesPerformanceQuery({ ...salesPerformanceQuery, territory: region })} />
+                    onSelectSalesRegion={(region) => setSalesPerformanceQuery({ ...salesPerformanceQuery, territory: region, pageNumber: 1 })} />
                 <SalesPerformanceReportMenu data={data.results} />
             </HStack>
             <SalesPerformanceTable

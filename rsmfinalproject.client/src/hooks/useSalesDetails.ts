@@ -23,7 +23,7 @@ const useSalesDetails = (salesDetailsQuery: SalesDetailsQuery) =>
             params: {
                 category: salesDetailsQuery.category?.name,
                 territory: salesDetailsQuery.territory?.name,
-                search: salesDetailsQuery.textSearch,
+                customer: salesDetailsQuery.customer,
                 onlineOrder: salesDetailsQuery.onlineOrder,
                 startDate: salesDetailsQuery.startDate,
                 endDate: salesDetailsQuery.endDate,

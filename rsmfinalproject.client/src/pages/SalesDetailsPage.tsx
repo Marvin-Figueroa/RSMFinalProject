@@ -13,7 +13,7 @@ import SalesDetailsReportMenu from "../components/SalesDetailsReportMenu";
 export interface SalesDetailsQuery {
     territory: Region | null;
     category: ProductCategory | null;
-    textSearch: string;
+    customer: string;
     onlineOrder: boolean;
     startDate: string;
     endDate: string;
@@ -34,8 +34,8 @@ const SalesDetailsPage = () => {
             <Checkbox disabled={loading} checked={salesDetailsQuery.onlineOrder} colorScheme='orange' onChange={() => setSalesDetailsQuery({ ...salesDetailsQuery, onlineOrder: !salesDetailsQuery.onlineOrder })} >
                 Online Sales
             </Checkbox>
-            <SearchBox disabled={loading} placeholder="customer, salesperson, product..."
-                onSearch={(textSearch) => setSalesDetailsQuery({ ...salesDetailsQuery, textSearch })} />
+            <SearchBox disabled={loading} placeholderText="customer"
+                onSearch={(customer) => setSalesDetailsQuery({ ...salesDetailsQuery, customer})} />
             <ProductCategorySelector
                 selectedProductCategory={salesDetailsQuery.category}
                 onSelectProductCategory={(category) => setSalesDetailsQuery({ ...salesDetailsQuery, category })} />

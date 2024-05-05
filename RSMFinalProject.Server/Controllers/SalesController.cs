@@ -23,52 +23,46 @@ namespace RSMFinalProject.Server.Controllers
 
         [HttpGet]
         [Route("details")]
-        public ActionResult<PaginatedResult<SalesOrderDetailsDTO>> GetSalesDetails(
+        public async Task<ActionResult<PaginatedResult<SalesOrderDetailsDTO>>> GetSalesDetails(
              [FromQuery] string? startDate,
              [FromQuery] string? endDate,
-             [FromQuery] string? territory = null,
-             [FromQuery] string? searchText = null,
-             [FromQuery] string? category = null,
-             [FromQuery] string? subcategory = null,
-             [FromQuery] bool? onlineOrder = null,
+             [FromQuery] string? territory,
+             [FromQuery] string? customer,
+             [FromQuery] string? category,
+             [FromQuery] string? subcategory,
+             [FromQuery] bool? onlineOrder,
              [FromQuery] int pageNumber = 1,
              [FromQuery] int pageSize = 10)
         {
-            var cacheKey = GenerateSalesDetailsCacheKey(startDate, endDate, territory, searchText, category, subcategory, onlineOrder, pageNumber, pageSize);
-
+            var cacheKey = GenerateSalesDetailsCacheKey(startDate, endDate, territory, customer, category, subcategory, onlineOrder, pageNumber, pageSize);
             var cacheData = _cacheService.GetData<PaginatedResult<SalesOrderDetailsDTO>>(cacheKey);
-
             if (cacheData != null && cacheData.Count > 0) { return Ok(cacheData); }
 
-            DateTime? parsedStartDate = string.IsNullOrEmpty(startDate) ? null : DateTime.Parse(startDate);
-            DateTime? parsedEndDate = string.IsNullOrEmpty(endDate) ? null : DateTime.Parse(endDate);
+            var validStartDateString = !string.IsNullOrEmpty(startDate) ? DateTime.TryParse(startDate, out DateTime startDateResult) : false;
+            var validEndDateString = !string.IsNullOrEmpty(startDate) ? DateTime.TryParse(startDate, out DateTime endDateResult) : false;
 
-            int itemsToSkip = (pageNumber - 1) * pageSize;
-            var salesDetails = _context.GetSalesOrderDetails(
+            DateTime? parsedStartDate = validStartDateString ? DateTime.Parse(startDate) : null;
+            DateTime? parsedEndDate = validEndDateString ? DateTime.Parse(endDate) : null;
+
+            var salesDetails = await _context.GetSalesOrderDetails(
         territory,
         parsedStartDate,
         parsedEndDate,
-        searchText,
+        customer,
         category,
         subcategory,
-        onlineOrder);
-
-            int count = salesDetails.Count();
-
-            salesDetails = salesDetails.Skip(itemsToSkip).Take(pageSize);
-
-            var results = salesDetails.ToList();
+        onlineOrder,
+        pageNumber,
+        pageSize);
 
             var paginatedResult = new PaginatedResult<SalesOrderDetailsDTO>
             {
-                Count = count,
-                Results = results
+                Count = salesDetails.Item2,
+                Results = salesDetails.Item1
             };
 
             var expiryTime = DateTimeOffset.Now.AddDays(1);
             _cacheService.SetData<PaginatedResult<SalesOrderDetailsDTO>>(cacheKey, paginatedResult, expiryTime);
-
-            
 
             return Ok(paginatedResult);
 
@@ -76,7 +70,7 @@ namespace RSMFinalProject.Server.Controllers
 
         [HttpGet]
         [Route("performance")]
-        public ActionResult<IEnumerable<SalesPerformanceDTO>> GetSalesPerformance(
+        public async Task<ActionResult<PaginatedResult<SalesPerformanceDTO>>> GetSalesPerformance(
         [FromQuery] string? product,
         [FromQuery] string? category,
         [FromQuery] string? territory,
@@ -84,25 +78,15 @@ namespace RSMFinalProject.Server.Controllers
         [FromQuery] int pageSize = 10)
         {
             var cacheKey = GenerateSalesPerformanceCacheKey(product, territory, category, pageNumber, pageSize);
-
             var cacheData = _cacheService.GetData<PaginatedResult<SalesPerformanceDTO>>(cacheKey);
-
             if (cacheData != null && cacheData.Count > 0) { return Ok(cacheData); }
 
-            int itemsToSkip = (pageNumber - 1) * pageSize;
-            var salesPerformance = _context.GetSalesPerformance(category, product, territory);
-
-
-            int count = salesPerformance.Count();
-
-            salesPerformance = salesPerformance.Skip(itemsToSkip).Take(pageSize);
-
-            var results = salesPerformance.ToList();
+            var salesPerformance = await _context.GetSalesPerformance(category, product, territory, pageNumber, pageSize);
 
             var paginatedResult = new PaginatedResult<SalesPerformanceDTO>
             {
-                Count = count,
-                Results = results
+                Count = salesPerformance.Item2,
+                Results = salesPerformance.Item1
             };
 
             var expiryTime = DateTimeOffset.Now.AddDays(1);
@@ -112,7 +96,7 @@ namespace RSMFinalProject.Server.Controllers
         }
 
 
-        private string GenerateSalesDetailsCacheKey(string? startDate, string? endDate, string? territory, string? searchText, string? category, string? subcategory, bool? onlineOrder, int pageNumber, int pageSize)
+        private string GenerateSalesDetailsCacheKey(string? startDate, string? endDate, string? territory, string? customer, string? category, string? subcategory, bool? onlineOrder, int pageNumber, int pageSize)
         {
             var stringBuilder = new StringBuilder();
 
@@ -133,9 +117,9 @@ namespace RSMFinalProject.Server.Controllers
                 stringBuilder.Append($"Territory={territory};");
             }
 
-            if (!string.IsNullOrEmpty(searchText))
+            if (!string.IsNullOrEmpty(customer))
             {
-                stringBuilder.Append($"SearchText={searchText};");
+                stringBuilder.Append($"Customer={customer};");
             }
 
             if (!string.IsNullOrEmpty(category))
