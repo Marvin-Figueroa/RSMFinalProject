@@ -16,7 +16,7 @@ const SalesDetailsTable = ({ data, loading }: Props) => {
                         <Tr>
                             <Th>Date</Th>
                             <Th>Region</Th>
-                            <Th>Customer(Person)</Th>
+                            <Th>Customer</Th>
                             <Th>Salesperson</Th>
                             <Th>Product</Th>
                             <Th>Category</Th>

@@ -236,7 +236,11 @@ BEGIN
 		    JOIN SalesByProductCategory sbpc ON pc.ProductCategoryID = sbpc.ProductCategoryID
 		    JOIN SalesByTerritory sbt ON st.TerritoryID = sbt.TerritoryID
 		    JOIN TotalSalesPerCategoryAndRegion tspcar ON st.TerritoryID = tspcar.TerritoryID AND pc.ProductCategoryID = tspcar.ProductCategoryID
-	    GROUP BY
+	    WHERE
+            (@ProductCategoryName IS NULL OR pc.Name = @ProductCategoryName) AND
+            (@ProductName IS NULL OR p.Name LIKE '%' + @ProductName + '%') AND
+            (@RegionName IS NULL OR st.Name = @RegionName)
+        GROUP BY
 		    p.Name,
 	        pc.Name,
 		    sod.LineTotal,

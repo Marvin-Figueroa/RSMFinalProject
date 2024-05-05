@@ -43,6 +43,7 @@ const SalesPerformancePage = () => {
             />
             <Box marginY='20px' display='flex' justifyContent='center'>
                 <Pagination
+                    disabled={loading}
                     current={salesPerformanceQuery.pageNumber}
                     onChange={(page, size) => setSalesPerformanceQuery({ ...salesPerformanceQuery, pageNumber: page, pageSize: size })}
                     total={data?.count}

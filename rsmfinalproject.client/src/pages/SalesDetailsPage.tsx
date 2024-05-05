@@ -35,27 +35,27 @@ const SalesDetailsPage = () => {
                 Online Sales
             </Checkbox>
             <SearchBox disabled={loading} placeholderText="customer"
-                onSearch={(customer) => setSalesDetailsQuery({ ...salesDetailsQuery, customer})} />
+                onSearch={(customer) => setSalesDetailsQuery({ ...salesDetailsQuery, customer, pageNumber: 1})} />
             <ProductCategorySelector
                 selectedProductCategory={salesDetailsQuery.category}
-                onSelectProductCategory={(category) => setSalesDetailsQuery({ ...salesDetailsQuery, category })} />
+                onSelectProductCategory={(category) => setSalesDetailsQuery({ ...salesDetailsQuery, category, pageNumber: 1 })} />
             <SalesRegionSelector
                 selectedSalesRegion={salesDetailsQuery.territory}
-                onSelectSalesRegion={(region) => setSalesDetailsQuery({ ...salesDetailsQuery, territory: region })} />
+                onSelectSalesRegion={(region) => setSalesDetailsQuery({ ...salesDetailsQuery, territory: region, pageNumber: 1 })} />
             <Box display='flex' gap='10px'>
                 <DatePicker
                     disabled={loading}
                     labelText="From"
                     maxDate={salesDetailsQuery.endDate ? salesDetailsQuery.endDate : new Date().toISOString().slice(0, 10)}
                     minDate="2011-05-31"
-                    onSelectDate={(date) => setSalesDetailsQuery({ ...salesDetailsQuery, startDate: date })}
+                    onSelectDate={(date) => setSalesDetailsQuery({ ...salesDetailsQuery, startDate: date, pageNumber: 1 })}
                 />
                 <DatePicker
                     disabled={loading}
                     labelText="To"
                     maxDate={new Date().toISOString().slice(0, 10)}
                     minDate={salesDetailsQuery.startDate ? salesDetailsQuery.startDate : "2011-05-31"}
-                    onSelectDate={(date) => setSalesDetailsQuery({ ...salesDetailsQuery, endDate: date })}
+                    onSelectDate={(date) => setSalesDetailsQuery({ ...salesDetailsQuery, endDate: date, pageNumber: 1 })}
                 />
             </Box>
             <SalesDetailsReportMenu data={data.results} />
