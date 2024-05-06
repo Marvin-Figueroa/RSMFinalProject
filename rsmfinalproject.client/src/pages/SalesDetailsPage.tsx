@@ -31,7 +31,7 @@ const SalesDetailsPage = () => {
 
     return (
         <><HStack display='flex' justifyContent='center' gap='20px' marginY='30px'>
-            <Checkbox disabled={loading} checked={salesDetailsQuery.onlineOrder} colorScheme='orange' onChange={() => setSalesDetailsQuery({ ...salesDetailsQuery, onlineOrder: !salesDetailsQuery.onlineOrder })} >
+            <Checkbox disabled={loading} checked={salesDetailsQuery.onlineOrder} colorScheme='orange' onChange={() => setSalesDetailsQuery({ ...salesDetailsQuery, onlineOrder: !salesDetailsQuery.onlineOrder, pageNumber: 1 })} >
                 Online Sales
             </Checkbox>
             <SearchBox disabled={loading} placeholderText="customer"

@@ -38,11 +38,9 @@ namespace RSMFinalProject.Server.Controllers
             var cacheData = _cacheService.GetData<PaginatedResult<SalesOrderDetailsDTO>>(cacheKey);
             if (cacheData != null && cacheData.Count > 0) { return Ok(cacheData); }
 
-            var validStartDateString = !string.IsNullOrEmpty(startDate) ? DateTime.TryParse(startDate, out DateTime startDateResult) : false;
-            var validEndDateString = !string.IsNullOrEmpty(startDate) ? DateTime.TryParse(startDate, out DateTime endDateResult) : false;
-
-            DateTime? parsedStartDate = validStartDateString ? DateTime.Parse(startDate) : null;
-            DateTime? parsedEndDate = validEndDateString ? DateTime.Parse(endDate) : null;
+            // Parse startDate and endDate only if they are not null or empty
+            DateTime? parsedStartDate = !string.IsNullOrEmpty(startDate) && DateTime.TryParse(startDate, out DateTime startDateResult) ? startDateResult : null;
+            DateTime? parsedEndDate = !string.IsNullOrEmpty(endDate) && DateTime.TryParse(endDate, out DateTime endDateResult) ? endDateResult : null;
 
             var salesDetails = await _context.GetSalesOrderDetails(
         territory,
